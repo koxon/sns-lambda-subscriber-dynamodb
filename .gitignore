@@ -6,3 +6,4 @@ npm_debug.log
 output.yaml
 samconfig.toml
 .aws-sam
+*.parameters
