@@ -5,3 +5,4 @@ npm_debug.log
 .idea
 output.yaml
 samconfig.toml
+.aws-sam

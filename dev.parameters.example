@@ -1,0 +1,5 @@
+PinsTableName=NFTFreezerDev-Pins
+UsersTableName=NFTFreezerDev-Users
+MetricsTableName=NFTFreezerDev-Metrics
+SNSTopic=arn:aws:sns:us-xxxx-1:xxxxxx:StripeWebhooksDev-SNSTopic-xxxxxx
+Environment=dev
