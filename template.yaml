@@ -25,10 +25,12 @@ Resources:
   LambdaSubscriber:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src
       Tracing: Active
       Handler: lambda.handler
       Runtime: nodejs20.x
+      MemorySize: 256
+      Timeout: 10
+      Description: Subscribes to a SNS topic and listens to Stripe events coming from API Gateway. 
       Architectures:
         - arm64
       Environment:

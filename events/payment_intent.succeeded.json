@@ -1,0 +1,62 @@
+{
+    "version": "2.0",
+    "routeKey": "$default",
+    "rawPath": "/path/to/resource",
+    "rawQueryString": "parameter1=value1&parameter1=value2&parameter2=value",
+    "cookies": [
+      "cookie1",
+      "cookie2"
+    ],
+    "headers": {
+      "Header1": "value1",
+      "Header2": "value1,value2"
+    },
+    "queryStringParameters": {
+      "parameter1": "value1,value2",
+      "parameter2": "value"
+    },
+    "requestContext": {
+      "accountId": "123456789012",
+      "apiId": "api-id",
+      "authentication": {
+        "clientCert": {
+          "clientCertPem": "CERT_CONTENT",
+          "subjectDN": "www.example.com",
+          "issuerDN": "Example issuer",
+          "serialNumber": "a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1",
+          "validity": {
+            "notBefore": "May 28 12:30:02 2019 GMT",
+            "notAfter": "Aug  5 09:36:04 2021 GMT"
+          }
+        }
+      },
+      "authorizer": {
+        "claims": {
+            "cognito:username": "0x9b84b6Fe443d57c43C7Ff0a2A48650bFEe00227b"
+        }
+      },
+      "domainName": "id.execute-api.us-east-1.amazonaws.com",
+      "domainPrefix": "id",
+      "http": {
+        "method": "POST",
+        "path": "/path/to/resource",
+        "protocol": "HTTP/1.1",
+        "sourceIp": "192.168.0.1/32",
+        "userAgent": "agent"
+      },
+      "requestId": "id",
+      "routeKey": "$default",
+      "stage": "$default",
+      "time": "12/Mar/2020:19:03:58 +0000",
+      "timeEpoch": 1583348638390
+    },
+    "body": "{\n  \"id\": \"evt_3OjCSfIw9nWYKV852G08OU3A\",\n  \"object\": \"event\",\n  \"api_version\": \"2023-10-16\",\n  \"created\": 1707794111,\n  \"data\": {\n    \"object\": {\n      \"id\": \"pi_3OjCSfIw9nWYKV852ksTjSTA\",\n      \"object\": \"payment_intent\",\n      \"amount\": 99,\n      \"amount_capturable\": 0,\n      \"amount_details\": {\n        \"tip\": {\n        }\n      },\n      \"amount_received\": 99,\n      \"application\": null,\n      \"application_fee_amount\": null,\n      \"automatic_payment_methods\": null,\n      \"canceled_at\": null,\n      \"cancellation_reason\": null,\n      \"capture_method\": \"automatic\",\n      \"client_secret\": \"pi_3OjCSfIw9nWYKV852ksTjSTA_secret_wXdcJi8hJAzw7ijtsVdDUQmJu\",\n      \"confirmation_method\": \"automatic\",\n      \"created\": 1707794109,\n      \"currency\": \"usd\",\n      \"customer\": \"cus_PYJ4rDlKe1OYqU\",\n      \"description\": \"Subscription creation\",\n      \"invoice\": \"in_1OjCSfIw9nWYKV85UxQBsct4\",\n      \"last_payment_error\": null,\n      \"latest_charge\": \"ch_3OjCSfIw9nWYKV852JVvs5ea\",\n      \"livemode\": false,\n      \"metadata\": {\n      },\n      \"next_action\": null,\n      \"on_behalf_of\": null,\n      \"payment_method\": \"pm_1OjCSeIw9nWYKV85ksy0Wwcd\",\n      \"payment_method_configuration_details\": null,\n      \"payment_method_options\": {\n        \"card\": {\n          \"installments\": null,\n          \"mandate_options\": null,\n          \"network\": null,\n          \"request_three_d_secure\": \"automatic\",\n          \"setup_future_usage\": \"off_session\"\n        },\n        \"cashapp\": {\n        },\n        \"link\": {\n          \"persistent_token\": null\n        },\n        \"us_bank_account\": {\n          \"mandate_options\": {\n          },\n          \"verification_method\": \"automatic\"\n        }\n      },\n      \"payment_method_types\": [\n        \"card\",\n        \"cashapp\",\n        \"link\",\n        \"us_bank_account\"\n      ],\n      \"processing\": null,\n      \"receipt_email\": null,\n      \"review\": null,\n      \"setup_future_usage\": \"off_session\",\n      \"shipping\": null,\n      \"source\": null,\n      \"statement_descriptor\": null,\n      \"statement_descriptor_suffix\": null,\n      \"status\": \"succeeded\",\n      \"transfer_data\": null,\n      \"transfer_group\": null\n    }\n  },\n  \"livemode\": false,\n  \"pending_webhooks\": 1,\n  \"request\": {\n    \"id\": \"req_GdgE2KTE7ASqaY\",\n    \"idempotency_key\": \"d1e57413-b766-40b7-b5b6-b490bb2cb498\"\n  },\n  \"type\": \"payment_intent.succeeded\"\n}",
+    "pathParameters": {
+      "parameter1": "value1"
+    },
+    "isBase64Encoded": true,
+    "stageVariables": {
+      "stageVariable1": "value1",
+      "stageVariable2": "value2"
+    }
+  }

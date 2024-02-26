@@ -1,16 +1,18 @@
 {
   "name": "sns-lambda-subscriber-dynamodb",
+  "description": "Processes Stripe events in th SQS queue",
   "version": "2.0.0",
-  "description": "",
-  "main": "src/lambda.js",
+  "main": "lambda.js",
+  "type": "module",
   "scripts": {
     "deploy": "sam deploy",
     "package": "sam package --template-file template.yaml --output-template-file output.yaml --s3-bucket app-repo-components"
   },
-  "config": {
-    "table_name": "randomNames"
-  },
   "keywords": [],
-  "author": "Aleksandar Simovic <alexander.simovic@gmail.com>",
-  "license": "MIT"
+  "author": "Nicolas Menciere",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.521.0",
+    "uuidv4": "^6.2.13"
+  }
 }

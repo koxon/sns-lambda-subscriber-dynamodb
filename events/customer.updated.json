@@ -1,0 +1,62 @@
+{
+    "version": "2.0",
+    "routeKey": "$default",
+    "rawPath": "/path/to/resource",
+    "rawQueryString": "parameter1=value1&parameter1=value2&parameter2=value",
+    "cookies": [
+      "cookie1",
+      "cookie2"
+    ],
+    "headers": {
+      "Header1": "value1",
+      "Header2": "value1,value2"
+    },
+    "queryStringParameters": {
+      "parameter1": "value1,value2",
+      "parameter2": "value"
+    },
+    "requestContext": {
+      "accountId": "123456789012",
+      "apiId": "api-id",
+      "authentication": {
+        "clientCert": {
+          "clientCertPem": "CERT_CONTENT",
+          "subjectDN": "www.example.com",
+          "issuerDN": "Example issuer",
+          "serialNumber": "a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1",
+          "validity": {
+            "notBefore": "May 28 12:30:02 2019 GMT",
+            "notAfter": "Aug  5 09:36:04 2021 GMT"
+          }
+        }
+      },
+      "authorizer": {
+        "claims": {
+            "cognito:username": "0x9b84b6Fe443d57c43C7Ff0a2A48650bFEe00227b"
+        }
+      },
+      "domainName": "id.execute-api.us-east-1.amazonaws.com",
+      "domainPrefix": "id",
+      "http": {
+        "method": "POST",
+        "path": "/path/to/resource",
+        "protocol": "HTTP/1.1",
+        "sourceIp": "192.168.0.1/32",
+        "userAgent": "agent"
+      },
+      "requestId": "id",
+      "routeKey": "$default",
+      "stage": "$default",
+      "time": "12/Mar/2020:19:03:58 +0000",
+      "timeEpoch": 1583348638390
+    },
+    "body": "{\n  \"id\": \"evt_1OjCSiIw9nWYKV85oz2VgneE\",\n  \"object\": \"event\",\n  \"api_version\": \"2023-10-16\",\n  \"created\": 1707794109,\n  \"data\": {\n    \"object\": {\n      \"id\": \"cus_PYJ4rDlKe1OYqU\",\n      \"object\": \"customer\",\n      \"address\": {\n        \"city\": \"New York\",\n        \"country\": \"US\",\n        \"line1\": \"19-54 77th Street\",\n        \"line2\": null,\n        \"postal_code\": \"11370\",\n        \"state\": \"NY\"\n      },\n      \"balance\": 0,\n      \"created\": 1707794108,\n      \"currency\": \"usd\",\n      \"default_source\": null,\n      \"delinquent\": false,\n      \"description\": null,\n      \"discount\": null,\n      \"email\": \"nicolas.menciere@gmail.com\",\n      \"invoice_prefix\": \"F668E0E6\",\n      \"invoice_settings\": {\n        \"custom_fields\": null,\n        \"default_payment_method\": null,\n        \"footer\": null,\n        \"rendering_options\": null\n      },\n      \"livemode\": false,\n      \"metadata\": {\n      },\n      \"name\": \"Nicolas Menciere\",\n      \"next_invoice_sequence\": 2,\n      \"phone\": null,\n      \"preferred_locales\": [\n        \"en-US\"\n      ],\n      \"shipping\": null,\n      \"tax_exempt\": \"none\",\n      \"test_clock\": null\n    },\n    \"previous_attributes\": {\n      \"currency\": null\n    }\n  },\n  \"livemode\": false,\n  \"pending_webhooks\": 1,\n  \"request\": {\n    \"id\": \"req_GdgE2KTE7ASqaY\",\n    \"idempotency_key\": \"d1e57413-b766-40b7-b5b6-b490bb2cb498\"\n  },\n  \"type\": \"customer.updated\"\n}",
+    "pathParameters": {
+      "parameter1": "value1"
+    },
+    "isBase64Encoded": true,
+    "stageVariables": {
+      "stageVariable1": "value1",
+      "stageVariable2": "value2"
+    }
+  }

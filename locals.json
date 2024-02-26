@@ -1,0 +1,6 @@
+{
+    "Parameters": {
+      "STRIPE_EVENTS_TABLE_NAME": "DynamoStripeEventsTable"
+    }
+}
+
