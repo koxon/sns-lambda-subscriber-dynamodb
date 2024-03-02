@@ -44,10 +44,11 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !Ref StripeEventsTable
       Events:
-        SubscribedTopic:
-          Type: SNS
+        SQSEvent:
+          Type: SQS
           Properties:
-            Topic: !Ref SNSTopic
+            Queue: !GetAtt StripeEventQueue.Arn
+            BatchSize: 10
   StripeEventsTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -66,7 +67,42 @@ Resources:
         - AttributeName: created
           KeyType: RANGE
       BillingMode: PAY_PER_REQUEST
+  StripeEventQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      RedrivePolicy: 
+        deadLetterTargetArn: !GetAtt StripeEventDLQ.Arn
+        maxReceiveCount: 5
+  StripeEventDLQ:
+    Type: AWS::SQS::Queue
+  Subscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !GetAtt StripeEventQueue.Arn 
+      Protocol: sqs
+      TopicArn: !Ref SNSTopic
+
+  StripeEventQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement: 
+          - Effect: Allow
+            Principal: 
+              Service: sns.amazonaws.com
+            Action: sqs:SendMessage  
+            Resource: !GetAtt StripeEventQueue.Arn
+            Condition: 
+              ArnLike:
+                "aws:SourceArn": !Ref SNSTopic
+      Queues: 
+        - Ref: StripeEventQueue
+
 Outputs:
   DynamoStripeEventsTable:
     Value: !GetAtt StripeEventsTable.Arn
     Description: The ARN of the StripeEventsTable DynamoDB Table
+  SQSStripeEventQueue:
+    Value: !GetAtt StripeEventQueue.Arn
+    Description: The ARN of the SQS Queue for Stripe Events

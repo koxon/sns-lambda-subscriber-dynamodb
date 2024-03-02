@@ -18,7 +18,8 @@ const dynamoDbClient = new DynamoDBClient();
 const saveToDynamoDB = async (data) => {
   if (!data) return;
   data.id = uuid();
-  console.log(data);
+  
+  console.log("Save to Dynamo", data);
 
   const params = {
     TableName: process.env.STRIPE_EVENTS_TABLE_NAME,
@@ -34,7 +35,7 @@ const saveToDynamoDB = async (data) => {
 };
 
 export const handler = async (event) => {
-  console.log(JSON.stringify(event));
+  console.log("Event", JSON.stringify(event));
 
   let messages = parseSnsMessage(event);
   return Promise.all(messages.map(saveToDynamoDB));
