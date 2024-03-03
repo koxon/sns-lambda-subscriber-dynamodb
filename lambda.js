@@ -1,33 +1,29 @@
-import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
-import { uuid } from 'uuidv4';
-import parseSnsMessage from './src/parse-sns-event.js';
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 
+import { marshall } from "@aws-sdk/util-dynamodb";
+import parseSqsSnsMessage from './src/parse-sqs-sns-event.js';
 
-// STRIPE_EVENTS_TABLE_NAME: !Ref StripeEventsTable
-// USERS_TABLE_NAME: !Ref UsersTableName
-// PINS_TABLE_TABLE_NAME: !Ref PinsTableName
-// METRICS_TABLE_NAME: !Ref MetricsTableName
-
-// const { v4: uuidv4 } = require('uuid');
-// const parseSnsMessage = require('./src/parse-sns-event');
-
-console.log("GOGO");
-
-const dynamoDbClient = new DynamoDBClient(); 
+const client = new DynamoDBClient({});
+const docClient = DynamoDBDocumentClient.from(client);
 
 const saveToDynamoDB = async (data) => {
   if (!data) return;
-  data.id = uuid();
-  
-  console.log("Save to Dynamo", data);
-
-  const params = {
-    TableName: process.env.STRIPE_EVENTS_TABLE_NAME,
-    Item: data
-  };
 
   try {
-    return await dynamoDbClient.send(new PutItemCommand(params));
+    if (!data.id) throw 'No Stripe event id';
+    
+    // TTL to expire the stripe event in Dynamo after 3 months
+    data.ttl = Math.floor((Date.now() + (3 * 30 * 24 * 60 * 60 * 1000)) / 1000);
+
+    // Data to insert in Dynamo
+    const params = {
+      TableName: process.env.STRIPE_EVENTS_TABLE_NAME,
+      Item: marshall(data)
+    };
+
+    console.log("Save to Dynamo", data);
+    return await docClient.send(new PutCommand(params));
   } catch (e) {
     console.error(e);
     throw e;
@@ -37,7 +33,14 @@ const saveToDynamoDB = async (data) => {
 export const handler = async (event) => {
   console.log("Event", JSON.stringify(event));
 
-  let messages = parseSnsMessage(event);
-  return Promise.all(messages.map(saveToDynamoDB));
+  // We parse the event and get a list of messages to process.
+  // Each message contains a Stripe event
+  let messages = await parseSqsSnsMessage(event);
+
+  // Saving all messages in Dynamo
+  return await Promise.all(messages.map(async message => {
+      return saveToDynamoDB(message);
+    })
+  );
 };
 

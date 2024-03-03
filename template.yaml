@@ -36,6 +36,7 @@ Resources:
       Environment:
         Variables:
           TOPIC_ARN: !Ref SNSTopic
+          QUEUE_URL: !Ref StripeEventQueue
           STRIPE_EVENTS_TABLE_NAME: !Ref StripeEventsTable
           USERS_TABLE_NAME: !Ref UsersTableName
           PINS_TABLE_TABLE_NAME: !Ref PinsTableName
