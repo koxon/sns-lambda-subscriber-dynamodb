@@ -1,10 +1,8 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
-
-import { marshall } from "@aws-sdk/util-dynamodb";
+import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 
 const client = new DynamoDBClient({});
-const docClient = DynamoDBDocumentClient.from(client);
+const docClient = DynamoDBDocument.from(client);
 
 // Process a Stripe Event
 export async function processEvent(event) {
@@ -31,16 +29,17 @@ export async function processEvent(event) {
 
       // First we check if the customer exists in our DB. We try to GET the user from DynamoDB
       const client_reference_id = event.data.object.client_reference_id;
-      const email = event.data.object.customer_details;
+      const email = (event.data.object.customer_details.email ? event.data.object.customer_details.email : "");
 
+      console.log("Finding user", client_reference_id);
+      console.log("User email", email);
       // Get the user if we find him
-      const data = await docClient.send(new GetCommand({
-          TableName: process.env.USERS_TABLE_NAME,
-          IndexName: process.env.USERS_TABLE_NAME + 'ByAddress',
-          Key: {
-            "address": client_reference_id
-          }
-        }));
+      const data = await docClient.get({
+        TableName: process.env.USERS_TABLE_NAME,
+        Key: {
+          'userId': client_reference_id
+        }
+      });
 
       // Bad user object?
       if (!data || !data.Item)
@@ -50,7 +49,7 @@ export async function processEvent(event) {
       console.log("User found", user);
 
       // Add attributes to the user
-      const command = await docClient.send(new UpdateCommand({
+      const result = await docClient.update({
         TableName: process.env.USERS_TABLE_NAME,
         Key: {
           'userId': user.userId
@@ -58,11 +57,13 @@ export async function processEvent(event) {
         UpdateExpression: 'SET email = :emailVal, customer_details = :customerDetailsVal, customer = :customerStripeIdVal, subscription = :subscriptionVal',
         ExpressionAttributeValues: {
           ':emailVal': email,
-          ':customerDetailsVal': marshall(event.data.object.customer_details),
+          ':customerDetailsVal': event.data.object.customer_details,
           ':subscriptionVal': event.data.object.subscription,
           ':customerStripeIdVal': event.data.object.customer
         }
-      }));
+      });
+
+      console.log("User updated", result);      
     }
   } catch (e) {
     console.log(e);

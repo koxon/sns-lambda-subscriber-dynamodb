@@ -19,7 +19,7 @@ const saveToDynamoDB = async (data) => {
     // Data to insert in Dynamo
     const params = {
       TableName: process.env.STRIPE_EVENTS_TABLE_NAME,
-      Item: marshall(data)
+      Item: data
     };
 
     console.log("Save to Dynamo", data);

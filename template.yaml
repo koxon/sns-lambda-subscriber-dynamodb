@@ -44,6 +44,8 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref StripeEventsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTableName
       Events:
         SQSEvent:
           Type: SQS
