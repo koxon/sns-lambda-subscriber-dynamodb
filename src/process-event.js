@@ -21,7 +21,7 @@ export async function processEvent(event) {
 
   // The event will not be stored and will be deleted from SQS
   if (!supportedEvents.includes(event.type))
-    throw `⚠️ Unsupported Stripe event: ${event.type}`;
+    throw new Error(`⚠️ Unsupported Stripe event: ${event.type}`);
 
   try {
     if (event.type == 'checkout.session.completed') {
@@ -43,7 +43,7 @@ export async function processEvent(event) {
 
       // Bad user object?
       if (!data || !data.Item)
-        throw `Invalid User. Unable to process Event.`
+        throw new Error('Invalid User. Unable to process Event.');
       
       const user = data.Item;
       console.log("User found", user);

@@ -1,7 +1,5 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-
-import { marshall } from "@aws-sdk/util-dynamodb";
 import parseSqsSnsMessage from './src/parse-sqs-sns-event.js';
 
 const client = new DynamoDBClient({});
@@ -11,7 +9,8 @@ const saveToDynamoDB = async (data) => {
   if (!data) return;
 
   try {
-    if (!data.id) throw 'No Stripe event id';
+    if (!data.id) 
+      throw new Error('No Stripe event id');
     
     // TTL to expire the stripe event in Dynamo after 3 months
     data.ttl = Math.floor((Date.now() + (3 * 30 * 24 * 60 * 60 * 1000)) / 1000);
